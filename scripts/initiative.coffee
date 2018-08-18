@@ -79,19 +79,19 @@ module.exports = (robot) ->
   help_commands = """
     The following commands are available for use:
 
-    `add <name> to initiative <number>` - Adds an entry for <name> in the initiative queue with number
+    `add <name> <number>` - Adds an entry for <name> in the initiative queue with number
     `next/pass` - Goes to the next turn in the initiative queue
     `remove <name> from round` - Removes the entry <name> from the round queue (will be restored when the round resets)
     `remove <name> from initiative` - Removes the entry <name> from the entire initiative queue
 
-    `start initiative` - Stops the initiative queue (the Queue will need to be ended with `stop initiative`)
-    `stop initiative` - Stops the initiative queue (the Queue will need to be reinstantiated with `start initiative`)
+    `start` - Stops the initiative queue (the Queue will need to be ended with `stop`)
+    `stop` - Stops the initiative queue (the Queue will need to be reinstantiated with `start`)
 
-    `show me the round` - Shows the current initiative round
+    `show` - Shows the current initiative round
     `commands` - Re-displays this help text
     """
 
-  robot.respond /start initiative/i, (res) ->
+  robot.respond /start/i, (res) ->
     current_initiative_queue = new InitiativeQueue robot.brain
 
     res.send "*** *Initiative has begun!* ***"
@@ -100,23 +100,23 @@ module.exports = (robot) ->
   robot.respond /commands/i, (res) ->
     res.send help_commands
 
-  robot.respond /stop initiative/i, (res) ->
+  robot.respond /stop/i, (res) ->
     current_initiative_queue.clear()
     current_initiative_queue = null
 
     res.send """
     *** *Initiative has now ended* ***
 
-    Use `start initiative` to begin another round.
+    Use `start` to begin another round.
     """
 
-  robot.respond /show me the round/i, (res) ->
+  robot.respond /show/i, (res) ->
     if current_initiative_queue
       res.send current_initiative_queue.show_queue()
     else
       res.send "We are not currently in initiative"
 
-  robot.respond /add (.*) to initiative ([0-9]*)/i, (res) ->
+  robot.respond /add (.*) ([0-9]*)/i, (res) ->
     if current_initiative_queue
       char_name = res.match[1]
       number = res.match[2]
