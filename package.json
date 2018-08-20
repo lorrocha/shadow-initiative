@@ -5,7 +5,7 @@
   "author": "Lorrayne Rocha <lorrocha90@gmail.com>",
   "description": "Help manage Shadowrun initiatives in slack",
   "dependencies": {
-    "hubot": "^3.1.1",
+    "hubot": "^2.0.0",
     "hubot-diagnostics": "^1.0.0",
     "hubot-google-images": "^0.2.7",
     "hubot-google-translate": "^0.2.1",
