@@ -1,3 +1,23 @@
+# Description:
+#   Add an easy way to track Initiative in slack for Shadowrun
+#
+# Configuration:
+#   HUBOT_SLACK_TOKEN
+#
+# Commands:
+#   initiative start - Instantiates an initiative queue
+#   initiative stop - Ends and removes the current round of initiative. Destructive to the previously established queue
+#   initiative commands - Shows all the commands to interact with the initiative bot
+#   initiative show - Shows the current initiative queue
+#   initiative add <name> <number> - Adds <name> to the initiative queue with a number of <number>
+#   initiative remove <name> from round - Removes <name> from ONLY the current round - not the entire queue
+#   initiative remove <name> from initiative - Removes <name> from the entire initiative queue - they will not be present in future rounds.
+#   initiative [next/pass] - Passes on to the next person's turn. If the current initiative round is over, restarts the queue as the top of the round.
+#
+# Author:
+#   lorrocha
+
+
 module.exports = (robot) ->
   class Entry
     constructor: (name, initiative) ->
@@ -97,9 +117,6 @@ module.exports = (robot) ->
     res.send "*** *Initiative has begun!* ***"
     res.send help_commands
 
-  robot.respond /commands/i, (res) ->
-    res.send help_commands
-
   robot.respond /stop/i, (res) ->
     current_initiative_queue.clear()
     current_initiative_queue = null
@@ -109,6 +126,9 @@ module.exports = (robot) ->
 
     Use `start` to begin another round.
     """
+
+  robot.respond /commands/i, (res) ->
+    res.send help_commands
 
   robot.respond /show/i, (res) ->
     if current_initiative_queue
